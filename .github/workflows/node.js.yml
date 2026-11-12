@@ -1,16 +1,18 @@
 name: Node
 
 on:
-  pull_request:
-  push:
-    branches-ignore: "dependabot/**"
+  workflow_dispatch:
+    inputs:
+      runner:
+        description: runs-on label for every job
+        default: ubuntu-latest
 
 permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}
     name: ${{ matrix.NPM_SCRIPT }} - ${{ matrix.NAME }} (${{ matrix.NODE_VERSION }})
     strategy:
       fail-fast: false
